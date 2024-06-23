@@ -25,7 +25,25 @@ gameBoard[playerX][playerY] = 1
 # place the exit in a random location
 exitX = random.randint(0,4)
 exitY = random.randint(0,4)
-gameBoard[exitX][exitY] = 5
+
+def check_exit():
+    global exitX, exitY
+    while gameBoard[exitX][exitY] != 0:
+        exitX = random.randint(0, 4)
+        exitY = random.randint(0, 4)
+    gameBoard[exitX][exitY] = 5
+
+# place the enemy in a random location
+enemyX = random.randint(0, 4)
+enemyY = random.randint(0, 4)
+
+def check_enemy():
+    global enemyX, enemyY
+    while gameBoard[enemyX][enemyY] != 0:
+        enemyX = random.randint(0, 4)
+        enemyY = random.randint(0, 4)
+    gameBoard[enemyX][enemyY] = 2
+    
 
 # ----------------------------------------- SET UP THE FUNCTIONS -----------------------------------------
 # create the def() functions for the program here
@@ -76,11 +94,20 @@ def checkExit():
         print('You have reached the exit')
         gameOver = True
 
+#check if the player has reached the exit
+def checkEnemy():
+    global playerHealth, playerX, enemyX, playerY, enemyY
+    if playerX == enemyX and playerY == enemyY:
+        playerHealth =- 20
+        print(f"Ouchy, you only have {playerHealth} left")
 # ----------------------------------------- MAIN LOOP -----------------------------------------
 # create the main loop for the program here
+check_exit()
+check_enemy()
 while gameOver == False:
     printBoard()
     movePlayer()
+    checkEnemy()
     checkExit()
     time.sleep(1)
 print('Game over!')
